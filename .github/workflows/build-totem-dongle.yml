@@ -10,6 +10,6 @@ jobs:
     uses: ./.github/workflows/main.yml
     secrets: inherit
     with:
-      board: '["seeeduino_xiao_ble"]'
-      shield: '["totem_left","totem_right"]'
+      board: '["nrf52840dk_nrf52840"]'
+      shield: '["totem_dongle"]'
       branches: '["zmkfirmware/zmk/v0.3-branch"]'
