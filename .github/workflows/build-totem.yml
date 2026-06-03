@@ -11,5 +11,5 @@ jobs:
     secrets: inherit
     with:
       board: '["seeeduino_xiao_ble"]'
-      shield: '["totem_left","totem_right"]'
+      shield: '["totem_left","totem_right", "settings_reset"]'
       branches: '["zmkfirmware/zmk/v0.3-branch"]'
