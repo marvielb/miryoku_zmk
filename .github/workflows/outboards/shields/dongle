@@ -1,0 +1,4 @@
+outboard_repository=englmaxi/zmk-dongle-display
+outboard_ref=main
+outboard_from=boards/shields/dongle_display
+outboard_to=boards/shields/dongle_display

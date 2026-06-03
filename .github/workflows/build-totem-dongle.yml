@@ -11,5 +11,5 @@ jobs:
     secrets: inherit
     with:
       board: '["nice_nano_v2"]'
-      shield: '["totem_dongle"]'
+      shield: '["totem_dongle dongle_display"]'
       branches: '["zmkfirmware/zmk/v0.3-branch"]'
