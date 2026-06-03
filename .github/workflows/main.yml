@@ -184,6 +184,15 @@ jobs:
           if [ -n "$shield" ]
           then
             outboards="shields/$keyboard_base boards/${{ matrix.board }}"
+            extra_shield_idx=0
+            for extra_shield in ${{ matrix.shield }}
+            do
+              if [ "$extra_shield_idx" -gt 0 ]
+              then
+                outboards="$outboards shields/${extra_shield}_extra"
+              fi
+              extra_shield_idx=$((extra_shield_idx + 1))
+            done
           else
             outboards="boards/$keyboard_base"
           fi
