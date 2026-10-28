@@ -1,0 +1,15 @@
+# Copyright 2022 Manna Harbour
+# https://github.com/manna-harbour/miryoku
+
+name: "Build Cygnus Keyboard Dongle"
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    uses: ./.github/workflows/main.yml
+    secrets: inherit
+    with:
+      board: '["nice_nano_v2"]'
+      shield: '["cygnus_dongle dongle_display"]'
+      branches: '["zmkfirmware/zmk/v0.3-branch"]'

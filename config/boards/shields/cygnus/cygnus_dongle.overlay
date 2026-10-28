@@ -1,0 +1,39 @@
+/*
+ * Copyright 2022 Manna Harbour
+ * https://github.com/manna-harbour/miryoku
+ */
+
+#include "cygnus-layouts.dtsi"
+
+/ {
+	chosen {
+		zmk,kscan = &mock_kscan;
+		zmk,physical-layout = &physical_layout_0;
+		zephyr,display = &oled;
+	};
+
+	mock_kscan: kscan_0 {
+		compatible = "zmk,kscan-mock";
+		columns = <0>;
+		rows = <0>;
+		events = <0>;
+	};
+};
+
+&pro_micro_i2c {
+	status = "okay";
+	oled: sh1106@3c {
+		compatible = "sinowealth,sh1106";
+		reg = <0x3c>;
+		width = <129>;
+		height = <64>;
+		segment-offset = <1>;
+		page-offset = <0>;
+		display-offset = <0>;
+		multiplex-ratio = <63>;
+		segment-remap;
+		com-invdir;
+		inversion-on;
+		prechargep = <0x22>;
+	};
+};

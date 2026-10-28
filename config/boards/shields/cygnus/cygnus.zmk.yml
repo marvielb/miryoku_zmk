@@ -1,0 +1,13 @@
+file_format: "1"
+id: cygnus
+name: Cygnus
+type: shield
+url: https://github.com/Vzhao-L/zmk-for-charybdis
+requires: [pro_micro]
+features:
+  - keys
+  - studio
+siblings:
+  - cygnus_left
+  - cygnus_right
+  - cygnus_dongle

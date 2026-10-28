@@ -1,0 +1,29 @@
+/*
+ * Copyright 2022 Manna Harbour
+ * https://github.com/manna-harbour/miryoku
+ */
+
+#include <dt-bindings/zmk/matrix_transform.h>
+
+#include "cygnus-layouts.dtsi"
+
+/ {
+	chosen {
+		zmk,kscan = &kscan0;
+		zmk,physical-layout = &physical_layout_0;
+	};
+
+	kscan0: kscan {
+		compatible = "zmk,kscan-gpio-matrix";
+		label = "KSCAN";
+
+		diode-direction = "row2col";
+
+		row-gpios
+			= <&gpio1 0 GPIO_ACTIVE_HIGH>
+			, <&gpio0 11 GPIO_ACTIVE_HIGH>
+			, <&gpio1 4 GPIO_ACTIVE_HIGH>
+			, <&gpio1 6 GPIO_ACTIVE_HIGH>
+			;
+	};
+};
