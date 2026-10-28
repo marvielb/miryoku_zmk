@@ -13,6 +13,7 @@
 # Usage:
 #   nix run .#cygnus-dongle                  # build one target, artifacts in ./artifacts
 #   nix run .#                               # build every target
+#   nix run .#clean                          # remove ./artifacts and .build (workspace + outputs)
 #   nix develop -c ./scripts/zmk-build.sh cygnus-dongle   # same, through a shell
 
 {
@@ -102,10 +103,39 @@
               exec ${pkgs.bash}/bin/bash "$root/scripts/zmk-build.sh" ${targets} "$@"
             '';
 
+          # Removes everything this repo produces locally. The Nix store side is
+          # deliberately not touched: gc runs globally and could delete this
+          # script while it is still executing.
+          clean = pkgs.writeShellScriptBin "clean" ''
+            root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+            if [ ! -d "$root/.build" ] && [ ! -d "$root/artifacts" ]; then
+              echo "nothing to clean"
+              exit 0
+            fi
+            echo "removing:"
+            for d in .build artifacts; do
+              if [ -d "$root/$d" ]; then
+                printf '  %-12s %s\n' "$d/" "$(du -sh "$root/$d" | cut -f1)"
+                rm -rf "$root/$d"
+              fi
+            done
+            cat <<'NOTE'
+
+The toolchain itself lives in the Nix store (~1.9 GiB). It has no profile
+roots, so it is reclaimed with:
+
+  nix store gc
+
+The next 'nix run .#<target>' re-fetches those store paths from
+cache.nixos.org and re-clones the ZMK west workspace into .build/.
+NOTE
+          '';
+
           packages =
             lib.genAttrs targetNames (name: pkgs.writeShellScriptBin name (runScript name)) // {
               default = pkgs.writeShellScriptBin "build-all"
                 (runScript (lib.escapeShellArgs targetNames));
+              inherit clean;
             };
         in
         {
