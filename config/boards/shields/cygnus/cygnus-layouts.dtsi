@@ -3,6 +3,7 @@
  * https://github.com/manna-harbour/miryoku
  */
 
+#include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
 
 / {
