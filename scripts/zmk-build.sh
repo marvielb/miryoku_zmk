@@ -2,12 +2,18 @@
 #
 # Local build for miryoku_zmk, mirroring .github/workflows/main.yml.
 #
-# Targets (board / shield, matching the build-cygnus*.yml workflows):
+# Targets (board / shield, matching the build-cygnus*.yml and build-totem*.yml
+# workflows):
 #
-#   cygnus-left      nice_nano_v2   cygnus_left
-#   cygnus-right     nice_nano_v2   cygnus_right
-#   cygnus-dongle    nice_nano_v2   cygnus_dongle dongle_display
-#   settings-reset   nice_nano_v2   settings_reset
+#   cygnus-left           nice_nano_v2        cygnus_left
+#   cygnus-right          nice_nano_v2        cygnus_right
+#   cygnus-dongle         nice_nano_v2        cygnus_dongle dongle_display
+#   totem-ble-left        seeeduino_xiao_ble  totem_ble_left      (central, dongle-less)
+#   totem-ble-right       seeeduino_xiao_ble  totem_ble_right
+#   totem-left            seeeduino_xiao_ble  totem_left          (peripheral, dongle mode)
+#   totem-right           seeeduino_xiao_ble  totem_right
+#   totem-settings-reset  seeeduino_xiao_ble  settings_reset
+#   settings-reset        nice_nano_v2        settings_reset
 #
 # Everything happens inside .build/ so the checkout is never modified:
 #
@@ -38,10 +44,15 @@ usage() {
 Usage: scripts/zmk-build.sh [--clean-workspace] <target>...
 
 Targets:
-  cygnus-left      nice_nano_v2   cygnus_left
-  cygnus-right     nice_nano_v2   cygnus_right
-  cygnus-dongle    nice_nano_v2   cygnus_dongle dongle_display
-  settings-reset   nice_nano_v2   settings_reset
+  cygnus-left           nice_nano_v2        cygnus_left
+  cygnus-right          nice_nano_v2        cygnus_right
+  cygnus-dongle         nice_nano_v2        cygnus_dongle dongle_display
+  totem-ble-left        seeeduino_xiao_ble  totem_ble_left      (central, dongle-less)
+  totem-ble-right       seeeduino_xiao_ble  totem_ble_right
+  totem-left            seeeduino_xiao_ble  totem_left          (peripheral, dongle mode)
+  totem-right           seeeduino_xiao_ble  totem_right
+  totem-settings-reset  seeeduino_xiao_ble  settings_reset
+  settings-reset        nice_nano_v2        settings_reset
 
 Options:
   --clean-workspace   discard .build/zmk first (re-fetches the ZMK 0.3
@@ -56,15 +67,19 @@ EOF
 
 resolve_target() {
   case "$1" in
-    cygnus-left)     shield='cygnus_left' ;;
-    cygnus-right)    shield='cygnus_right' ;;
-    cygnus-dongle)   shield='cygnus_dongle dongle_display' ;;
-    settings-reset)  shield='settings_reset' ;;
+    cygnus-left)          board=nice_nano_v2;       shield='cygnus_left' ;;
+    cygnus-right)         board=nice_nano_v2;       shield='cygnus_right' ;;
+    cygnus-dongle)        board=nice_nano_v2;       shield='cygnus_dongle dongle_display' ;;
+    totem-ble-left)       board=seeeduino_xiao_ble; shield='totem_ble_left' ;;
+    totem-ble-right)      board=seeeduino_xiao_ble; shield='totem_ble_right' ;;
+    totem-left)           board=seeeduino_xiao_ble; shield='totem_left' ;;
+    totem-right)          board=seeeduino_xiao_ble; shield='totem_right' ;;
+    totem-settings-reset) board=seeeduino_xiao_ble; shield='settings_reset' ;;
+    settings-reset)       board=nice_nano_v2;       shield='settings_reset' ;;
     *) echo "error: unknown target '$1'" >&2; usage ;;
   esac
   # main.yml uses only the first shield word as the keyboard name.
   keyboard=$(printf '%s' "$shield" | cut -d ' ' -f 1)
-  board=nice_nano_v2
 }
 
 clean_workspace=0

@@ -12,6 +12,7 @@
 #
 # Usage:
 #   nix run .#cygnus-dongle                  # build one target, artifacts in ./artifacts
+#   nix run .#totem-ble-left                 # dongle-less totem half (central)
 #   nix run .#                               # build every target
 #   nix run .#clean                          # remove ./artifacts and .build (workspace + outputs)
 #   nix develop -c ./scripts/zmk-build.sh cygnus-dongle   # same, through a shell
@@ -31,6 +32,11 @@
         "cygnus-left"
         "cygnus-right"
         "cygnus-dongle"
+        "totem-ble-left"
+        "totem-ble-right"
+        "totem-left"
+        "totem-right"
+        "totem-settings-reset"
         "settings-reset"
       ];
 

@@ -3,7 +3,6 @@
 
 name: "Build Totem Keyboard"
 on:
-  push:
   workflow_dispatch:
 jobs:
   build:
